@@ -13,15 +13,16 @@ class TestComponent {
 }
 
 describe('GreetComponent', () => {
+  type Context = TestContext<GreetComponent, TestComponent>;
   initContext(GreetComponent, TestComponent);
 
-  it('offers a [name] input', function(this: TestContext<GreetComponent, TestComponent>) {
+  it('offers a [name] input', function(this: Context) {
     this.hostComponent.name = 'Angular';
     this.fixture.detectChanges();
     expect(this.testedDirective.name).toBe('Angular');
   });
 
-  it('greets politely', function(this: TestContext<GreetComponent, TestComponent>) {
+  it('greets politely', function(this: Context) {
     expect(this.testedElement.textContent).toContain('Hello World');
   });
 });

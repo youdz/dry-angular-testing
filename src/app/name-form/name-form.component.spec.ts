@@ -14,9 +14,10 @@ class TestComponent {
 }
 
 describe('NameFormComponent', () => {
+  type Context = TestContext<NameFormComponent, TestComponent>;
   initContext(NameFormComponent, TestComponent);
 
-  it('offers a [(name)] two-way binding', function(this: TestContext<NameFormComponent, TestComponent>) {
+  it('offers a [(name)] two-way binding', function(this: Context) {
     // Input
     this.hostComponent.name = 'World';
     this.fixture.detectChanges();
@@ -27,13 +28,12 @@ describe('NameFormComponent', () => {
     expect(this.hostComponent.name).toBe('Angular');
   });
 
-  it('updates and emits the (nameChange) output on input change',
-    function(this: TestContext<NameFormComponent, TestComponent>) {
-      const input = this.tested.query(By.css('input'));
-      input.nativeElement.value = 'World';
-      input.triggerEventHandler('change', null);
-      this.fixture.detectChanges();
-      expect(this.testedDirective.name).toBe('World');
-      expect(this.hostComponent.name).toBe('World');
-    });
+  it('updates and emits the (nameChange) output on input change', function(this: Context) {
+    const input = this.tested.query(By.css('input'));
+    input.nativeElement.value = 'World';
+    input.triggerEventHandler('change', null);
+    this.fixture.detectChanges();
+    expect(this.testedDirective.name).toBe('World');
+    expect(this.hostComponent.name).toBe('World');
+  });
 });
