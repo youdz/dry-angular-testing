@@ -18,7 +18,7 @@ describe('GreetComponent', () => {
 
   it('offers a [name] input', function(this: Context) {
     this.hostComponent.name = 'Angular';
-    this.fixture.detectChanges();
+    this.detectChanges();
     expect(this.testedDirective.name).toBe('Angular');
   });
 

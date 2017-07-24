@@ -20,11 +20,11 @@ describe('NameFormComponent', () => {
   it('offers a [(name)] two-way binding', function(this: Context) {
     // Input
     this.hostComponent.name = 'World';
-    this.fixture.detectChanges();
+    this.detectChanges();
     expect(this.testedDirective.name).toBe('World');
     // Output
     this.testedDirective.update('Angular');
-    this.fixture.detectChanges();
+    this.detectChanges();
     expect(this.hostComponent.name).toBe('Angular');
   });
 
@@ -32,7 +32,7 @@ describe('NameFormComponent', () => {
     const input = this.tested.query(By.css('input'));
     input.nativeElement.value = 'World';
     input.triggerEventHandler('change', null);
-    this.fixture.detectChanges();
+    this.detectChanges();
     expect(this.testedDirective.name).toBe('World');
     expect(this.hostComponent.name).toBe('World');
   });
