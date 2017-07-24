@@ -1,5 +1,5 @@
 import {DebugElement, Type} from '@angular/core';
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {async, ComponentFixture, TestBed, TestModuleMetadata} from '@angular/core/testing';
 import {By} from '@angular/platform-browser';
 
 export interface TestContext<T, H> {
@@ -10,10 +10,17 @@ export interface TestContext<T, H> {
   testedElement: any;
 }
 
-export function initContext<T, H>(testedType: Type<T>, hostType: Type<H>) {
+export function initContext<T, H>(testedType: Type<T>, hostType: Type<H>, moduleMetadata: TestModuleMetadata = {}) {
   beforeEach(async(function(this: TestContext<T, H>) {
+    const declarations = [ testedType, hostType ];
+    if (moduleMetadata && moduleMetadata.declarations) {
+      declarations.push(...moduleMetadata.declarations);
+    }
     TestBed.configureTestingModule({
-      declarations: [testedType, hostType]
+      providers: moduleMetadata.providers,
+      declarations: declarations,
+      imports: moduleMetadata.imports,
+      schemas: moduleMetadata.schemas
     })
       .compileComponents();
   }));
