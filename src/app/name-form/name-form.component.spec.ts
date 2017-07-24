@@ -1,51 +1,8 @@
 import { Component } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
+import {initContext, TestContext} from '../../testing/test-context.spec';
 import { NameFormComponent } from './name-form.component';
-
-describe('NameFormComponent', () => {
-  let fixture: ComponentFixture<TestComponent>;
-  let nameFormComponent: NameFormComponent;
-
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ TestComponent, NameFormComponent ]
-    })
-    .compileComponents();
-  }));
-
-  beforeEach(() => {
-    fixture = TestBed.createComponent(TestComponent);
-    nameFormComponent = fixture.debugElement.query(By.directive(NameFormComponent)).componentInstance;
-    fixture.detectChanges();
-  });
-
-  afterEach(() => {
-    fixture.destroy();
-    fixture.nativeElement.remove();
-  });
-
-  it('offers a [(name)] two-way binding', () => {
-    // Input
-    fixture.componentInstance.name = 'World';
-    fixture.detectChanges();
-    expect(nameFormComponent.name).toBe('World');
-    // Output
-    nameFormComponent.update('Angular');
-    fixture.detectChanges();
-    expect(fixture.componentInstance.name).toBe('Angular');
-  });
-
-  it('updates and emits the (nameChange) output on input change', () => {
-    const input = fixture.debugElement.query(By.css('input'));
-    input.nativeElement.value = 'World';
-    input.triggerEventHandler('change', null);
-    fixture.detectChanges();
-    expect(nameFormComponent.name).toBe('World');
-    expect(fixture.componentInstance.name).toBe('World');
-  });
-});
 
 @Component({
   template: `
@@ -55,3 +12,28 @@ describe('NameFormComponent', () => {
 class TestComponent {
   name: string;
 }
+
+describe('NameFormComponent', () => {
+  initContext(NameFormComponent, TestComponent);
+
+  it('offers a [(name)] two-way binding', function(this: TestContext<NameFormComponent, TestComponent>) {
+    // Input
+    this.hostComponent.name = 'World';
+    this.fixture.detectChanges();
+    expect(this.testedDirective.name).toBe('World');
+    // Output
+    this.testedDirective.update('Angular');
+    this.fixture.detectChanges();
+    expect(this.hostComponent.name).toBe('Angular');
+  });
+
+  it('updates and emits the (nameChange) output on input change',
+    function(this: TestContext<NameFormComponent, TestComponent>) {
+      const input = this.tested.query(By.css('input'));
+      input.nativeElement.value = 'World';
+      input.triggerEventHandler('change', null);
+      this.fixture.detectChanges();
+      expect(this.testedDirective.name).toBe('World');
+      expect(this.hostComponent.name).toBe('World');
+    });
+});
