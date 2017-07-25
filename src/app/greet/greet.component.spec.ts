@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import {initContext, TestContext} from '../../testing/test-context.spec';
+import {initContext, TestContext} from '../../testing/test-context';
 import { GreetComponent } from './greet.component';
 
 @Component({

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { By } from '@angular/platform-browser';
 
-import {initContext, TestContext} from '../../testing/test-context.spec';
+import {initContext, TestContext} from '../../testing/test-context';
 import { NameFormComponent } from './name-form.component';
 
 @Component({

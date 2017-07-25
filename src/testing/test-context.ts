@@ -31,10 +31,12 @@ export function initContext<T, H>(testedType: Type<T>, hostType: Type<H>, module
   });
 
   beforeEach(async(function(this: TestContext<T, H>) {
-    const metadata = {...moduleMetadata};
-    metadata.declarations = metadata.declarations || [];
-    metadata.declarations.push(testedType, hostType);
-    TestBed.configureTestingModule(metadata).compileComponents();
+    const declarations = [ testedType, hostType ];
+    if (moduleMetadata && moduleMetadata.declarations) {
+      declarations.push(...moduleMetadata.declarations);
+    }
+    TestBed.configureTestingModule({...moduleMetadata, declarations: declarations})
+      .compileComponents();
   }));
 
   beforeEach(function(this: TestContext<T, H>) {
