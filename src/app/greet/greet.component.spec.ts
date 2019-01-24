@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 
-import {initContext, TestContext} from '../../testing/test-context';
+import {initContext} from '../../testing/init';
+import {TestContext} from '../../testing/test-context';
+import {ComponentSpec} from '../../testing/spec-builder';
 import { GreetComponent } from './greet.component';
 
 @Component({
@@ -23,8 +25,17 @@ describe('GreetComponent', () => {
   });
 
   it('greets politely', function(this: Context) {
-    expect(this.testedElement.textContent).toContain('Hello World');
+    expect(this).toDisplay('Hello World');
   });
 });
 
 
+
+/*
+ * Experimenting with a spec builder for even simpler unit testing
+ */
+
+const spec = new ComponentSpec(GreetComponent);
+spec.hasInput('name');
+spec.set('name', 'World').displays('Hello World');
+spec.run();

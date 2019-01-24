@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
-import { By } from '@angular/platform-browser';
 
-import {initContext, TestContext} from '../../testing/test-context';
+import {initContext} from '../../testing/init';
+import {TestContext} from '../../testing/test-context';
+import {ComponentSpec} from '../../testing/spec-builder';
 import { NameFormComponent } from './name-form.component';
 
 @Component({
@@ -29,7 +30,7 @@ describe('NameFormComponent', () => {
   });
 
   it('updates and emits the (nameChange) output on input change', function(this: Context) {
-    const input = this.tested.query(By.css('input'));
+    const input = this.query('input');
     input.nativeElement.value = 'World';
     input.triggerEventHandler('change', null);
     this.detectChanges();
@@ -37,3 +38,14 @@ describe('NameFormComponent', () => {
     expect(this.hostComponent.name).toBe('World');
   });
 });
+
+
+/*
+ * Experimenting with a spec builder for even simpler unit testing
+ */
+
+const spec = new ComponentSpec(NameFormComponent);
+// spec.hasInput('name');
+// spec.hasOutput('nameChange');
+spec.hasTwoWayBinding('name');
+spec.run();
