@@ -16,7 +16,7 @@ describe('GreetComponent', () => {
   type Context = TestContext<GreetComponent, TestComponent>;
   initContext(GreetComponent, TestComponent);
 
-  it('offers a [name] input', function(this: Context) {
+  it('receives a [name] input', function(this: Context) {
     this.hostComponent.name = 'Angular';
     this.detectChanges();
     expect(this.testedDirective.name).toBe('Angular');
